@@ -1,4 +1,3 @@
-/*
 package com.springboot.notification.service;
 
 import com.springboot.notification.dto.ResponseMessage;
@@ -32,4 +31,3 @@ public class WSService {
         messagingTemplate.convertAndSendToUser(id, "/topic/private-messages", response);
     }
 }
-*/
