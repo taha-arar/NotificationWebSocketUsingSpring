@@ -16,6 +16,7 @@ public class WSController {
 
     @PostMapping("/send-message")
     public void sendMessage(@RequestBody final Message message) {
+
         service.notifyFrontend(message.getMessageContent());
     }
 
