@@ -19,25 +19,25 @@ $(document).ready(function() {
 });
 
 function connect() {
-    var socket = new SockJS('/our-websocket');
+    var socket = new SockJS('/WS-websocket');
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
         console.log('Connected: ' + frame);
         updateNotificationDisplay();
-        stompClient.subscribe('/topic/messages', function (message) {
-            showMessage(JSON.parse(message.body).content);
+        stompClient.subscribe('/app/notifications', function (message) {
+            showMessage(JSON.parse(message.body).messageContent);
         });
 
-        stompClient.subscribe('/user/topic/private-messages', function (message) {
-            showMessage(JSON.parse(message.body).content);
+        stompClient.subscribe('/user/app/private-notifications', function (message) {
+            showMessage(JSON.parse(message.body).messageContent);
         });
 
-        stompClient.subscribe('/topic/global-notifications', function (message) {
+        stompClient.subscribe('/app/global-notifications', function (message) {
             notificationCount = notificationCount + 1;
             updateNotificationDisplay();
         });
 
-        stompClient.subscribe('/user/topic/private-notifications', function (message) {
+        stompClient.subscribe('/user/app/private-notifications', function (message) {
             notificationCount = notificationCount + 1;
             updateNotificationDisplay();
         });
@@ -50,12 +50,12 @@ function showMessage(message) {
 
 function sendMessage() {
     console.log("sending message");
-    stompClient.send("/ws/message", {}, JSON.stringify({'messageContent': $("#message").val()}));
+    stompClient.send("/ws/notification", {}, JSON.stringify({'messageContent': $("#message").val()}));
 }
 
 function sendPrivateMessage() {
     console.log("sending private message");
-    stompClient.send("/ws/private-message", {}, JSON.stringify({'messageContent': $("#private-message").val()}));
+    stompClient.send("/ws/private-notification", {}, JSON.stringify({'messageContent': $("#private-message").val()}));
 }
 
 function updateNotificationDisplay() {

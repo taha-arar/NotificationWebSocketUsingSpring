@@ -21,13 +21,13 @@ public class WSService {
         ResponseMessage response = new ResponseMessage(message);
         notificationService.sendGlobalNotification();
 
-        messagingTemplate.convertAndSend("/topic/messages", response);
+        messagingTemplate.convertAndSend("/app/notifications", response);
     }
 
     public void notifyUser(final String id, final String message) {
         ResponseMessage response = new ResponseMessage(message);
 
         notificationService.sendPrivateNotification(id);
-        messagingTemplate.convertAndSendToUser(id, "/topic/private-messages", response);
+        messagingTemplate.convertAndSendToUser(id, "/app/private-notifications", response);
     }
 }

@@ -3,6 +3,7 @@ package com.springboot.notification.controller;
 import com.springboot.notification.dto.ResponseMessage;
 import com.springboot.notification.model.Message;
 import com.springboot.notification.service.NotificationService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -13,23 +14,24 @@ import org.springframework.web.util.HtmlUtils;
 import java.security.Principal;
 
 @Controller
+@RequiredArgsConstructor
 public class MessageController {
-    @Autowired
-    private NotificationService notificationService;
 
-    @MessageMapping("/message")
-    @SendTo("/topic/messages")
-    public ResponseMessage getMessage(final Message message) throws InterruptedException {
+    private final NotificationService notificationService;
+
+    @MessageMapping("/notification")
+    @SendTo("/app/notifications")
+    public Message getMessage(final Message message) {
         notificationService.sendGlobalNotification();
-        return new ResponseMessage(HtmlUtils.htmlEscape(message.getMessageContent()));
+        return new Message(HtmlUtils.htmlEscape(message.getMessageContent()));
     }
 
-    @MessageMapping("/private-message")
-    @SendToUser("/topic/private-messages")
-    public ResponseMessage getPrivateMessage(final Message message,
-                                             final Principal principal) throws InterruptedException {
+    @MessageMapping("/private-notification")
+    @SendToUser("/app/private-notifications")
+    public Message getPrivateMessage(final Message message,
+                                             final Principal principal) {
         notificationService.sendPrivateNotification(principal.getName());
-        return new ResponseMessage(HtmlUtils.htmlEscape(
+        return new Message(HtmlUtils.htmlEscape(
                 "Sending private message to user " + principal.getName() + ": "
                         + message.getMessageContent())
         );
