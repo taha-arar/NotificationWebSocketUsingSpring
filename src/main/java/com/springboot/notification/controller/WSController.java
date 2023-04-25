@@ -1,4 +1,3 @@
-/*
 package com.springboot.notification.controller;
 
 import com.springboot.notification.model.Message;
@@ -17,15 +16,12 @@ public class WSController {
 
     @PostMapping("/send-message")
     public void sendMessage(@RequestBody final Message message) {
-        System.out.println("Global message in WSController");
-
         service.notifyFrontend(message.getMessageContent());
     }
 
     @PostMapping("/send-private-message/{id}")
     public void sendPrivateMessage(@PathVariable final String id,
                                    @RequestBody final Message message) {
-        System.out.println("Private message in WSController");
         service.notifyUser(id, message.getMessageContent());
     }
-}*/
+}
