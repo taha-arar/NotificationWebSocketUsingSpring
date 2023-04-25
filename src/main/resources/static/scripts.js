@@ -1,5 +1,5 @@
 var stompClient = null;
-var notificationCount = 0;
+// var notificationCount = 0;
 
 $(document).ready(function() {
     console.log("Index page is ready");
@@ -13,9 +13,9 @@ $(document).ready(function() {
         sendPrivateMessage();
     });
 
-    $("#notifications").click(function() {
+   /* $("#notifications").click(function() {
         resetNotificationCount();
-    });
+    });*/
 });
 
 function connect() {
@@ -23,16 +23,16 @@ function connect() {
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
         console.log('Connected: ' + frame);
-        updateNotificationDisplay();
+       /* updateNotificationDisplay();
         stompClient.subscribe('/topic/messages', function (message) {
             showMessage(JSON.parse(message.body).content);
-        });
+        });*/
 
         stompClient.subscribe('/user/topic/private-messages', function (message) {
             showMessage(JSON.parse(message.body).content);
         });
 
-        stompClient.subscribe('/topic/global-notifications', function (message) {
+      /*  stompClient.subscribe('/topic/global-notifications', function (message) {
             notificationCount = notificationCount + 1;
             updateNotificationDisplay();
         });
@@ -40,7 +40,7 @@ function connect() {
         stompClient.subscribe('/user/topic/private-notifications', function (message) {
             notificationCount = notificationCount + 1;
             updateNotificationDisplay();
-        });
+        });*/
     });
 }
 
@@ -58,16 +58,17 @@ function sendPrivateMessage() {
     stompClient.send("/ws/private-message", {}, JSON.stringify({'messageContent': $("#private-message").val()}));
 }
 
-function updateNotificationDisplay() {
+/*function updateNotificationDisplay() {
     if (notificationCount == 0) {
         $('#notifications').hide();
     } else {
         $('#notifications').show();
         $('#notifications').text(notificationCount);
     }
-}
+}*/
 
+/*
 function resetNotificationCount() {
     notificationCount = 0;
     updateNotificationDisplay();
-}
+}*/

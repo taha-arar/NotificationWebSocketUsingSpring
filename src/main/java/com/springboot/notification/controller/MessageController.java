@@ -20,7 +20,6 @@ public class MessageController {
     @MessageMapping("/message")
     @SendTo("/topic/messages")
     public ResponseMessage getMessage(final Message message) throws InterruptedException {
-        Thread.sleep(1000);
         notificationService.sendGlobalNotification();
         return new ResponseMessage(HtmlUtils.htmlEscape(message.getMessageContent()));
     }
@@ -29,7 +28,6 @@ public class MessageController {
     @SendToUser("/topic/private-messages")
     public ResponseMessage getPrivateMessage(final Message message,
                                              final Principal principal) throws InterruptedException {
-        Thread.sleep(1000);
         notificationService.sendPrivateNotification(principal.getName());
         return new ResponseMessage(HtmlUtils.htmlEscape(
                 "Sending private message to user " + principal.getName() + ": "
