@@ -1,15 +1,14 @@
 package com.springboot.notification.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 @Data
 @RequiredArgsConstructor
-public class Message {
+public class Notification {
     private String messageContent;
 
-    public Message(String messageContent) {
+    public Notification(String messageContent) {
         this.messageContent = messageContent;
     }
 

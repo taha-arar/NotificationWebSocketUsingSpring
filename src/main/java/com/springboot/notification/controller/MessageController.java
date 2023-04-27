@@ -1,10 +1,8 @@
 package com.springboot.notification.controller;
 
-import com.springboot.notification.dto.ResponseMessage;
-import com.springboot.notification.model.Message;
+import com.springboot.notification.model.Notification;
 import com.springboot.notification.service.NotificationService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.annotation.SendToUser;
@@ -21,19 +19,19 @@ public class MessageController {
 
     @MessageMapping("/notification")
     @SendTo("/app/notifications")
-    public Message getMessage(final Message message) {
+    public Notification getMessage(final Notification notification) {
         notificationService.sendGlobalNotification();
-        return new Message(HtmlUtils.htmlEscape(message.getMessageContent()));
+        return new Notification(HtmlUtils.htmlEscape(notification.getMessageContent()));
     }
 
     @MessageMapping("/private-notification")
     @SendToUser("/app/private-notifications")
-    public Message getPrivateMessage(final Message message,
-                                             final Principal principal) {
+    public Notification getPrivateMessage(final Notification notification,
+                                          final Principal principal) {
         notificationService.sendPrivateNotification(principal.getName());
-        return new Message(HtmlUtils.htmlEscape(
-                "Sending private message to user " + principal.getName() + ": "
-                        + message.getMessageContent())
+        return new Notification(HtmlUtils.htmlEscape(
+                "Sending private notification to user " + principal.getName() + ": "
+                        + notification.getMessageContent())
         );
     }
 }

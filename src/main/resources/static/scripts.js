@@ -25,11 +25,11 @@ function connect() {
         console.log('Connected: ' + frame);
         updateNotificationDisplay();
         stompClient.subscribe('/app/notifications', function (message) {
-            showMessage(JSON.parse(message.body).messageContent);
+            showMessage(JSON.parse(message.body).messageContent+'   all');
         });
 
         stompClient.subscribe('/user/app/private-notifications', function (message) {
-            showMessage(JSON.parse(message.body).messageContent);
+            showMessage(JSON.parse(message.body).messageContent+'    private');
         });
 
         stompClient.subscribe('/app/global-notifications', function (message) {
@@ -45,17 +45,19 @@ function connect() {
 }
 
 function showMessage(message) {
+    console.log('---------------')
+    console.log(message)
     $("#messages").append("<tr><td>" + message + "</td></tr>");
 }
 
 function sendMessage() {
     console.log("sending message");
-    stompClient.send("/ws/notification", {}, JSON.stringify({'messageContent': $("#message").val()}));
+    stompClient.send("/ws/notification", {}, JSON.stringify({'messageContent': $("#notification").val()}));
 }
 
 function sendPrivateMessage() {
     console.log("sending private message");
-    stompClient.send("/ws/private-notification", {}, JSON.stringify({'messageContent': $("#private-message").val()}));
+    stompClient.send("/ws/private-notification", {}, JSON.stringify({'messageContent': $("#private-notification").val()}));
 }
 
 function updateNotificationDisplay() {

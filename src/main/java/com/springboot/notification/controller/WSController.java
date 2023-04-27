@@ -1,6 +1,6 @@
 package com.springboot.notification.controller;
 
-import com.springboot.notification.model.Message;
+import com.springboot.notification.model.Notification;
 import com.springboot.notification.service.WSService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,14 +15,14 @@ public class WSController {
     private final WSService service;
 
     @PostMapping("/send-notification")
-    public void sendMessage(@RequestBody final Message message) {
+    public void sendMessage(@RequestBody final Notification notification) {
 
-        service.notifyFrontend(message.getMessageContent());
+        service.notifyFrontend(notification.getMessageContent());
     }
 
     @PostMapping("/send-private-notification/{id}")
     public void sendPrivateMessage(@PathVariable final String id,
-                                   @RequestBody final Message message) {
-        service.notifyUser(id, message.getMessageContent());
+                                   @RequestBody final Notification notification) {
+        service.notifyUser(id, notification.getMessageContent());
     }
 }
