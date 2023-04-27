@@ -25,11 +25,11 @@ function connect() {
         console.log('Connected: ' + frame);
         updateNotificationDisplay();
         stompClient.subscribe('/app/notifications', function (message) {
-            showMessage(JSON.parse(message.body).messageContent+'   all');
+            showMessage(JSON.parse(message.body).messageContent);
         });
 
         stompClient.subscribe('/user/app/private-notifications', function (message) {
-            showMessage(JSON.parse(message.body).messageContent+'    private');
+            showMessage(JSON.parse(message.body).messageContent);
         });
 
         stompClient.subscribe('/app/global-notifications', function (message) {
